@@ -43,8 +43,8 @@ class RolesPage extends BasePage {
     async checkVisibilityOfCreatedRole(): Promise<boolean> {
         return await this.isElementVisibleMethod(RolesPage.browserRoot, RolesPage.rolesTest);
     }
-    private async isElementVisibleMethod(shadowRoot: string | null, selector: string): Promise<boolean> {
 
+    private async isElementVisibleMethod(shadowRoot: string | null, selector: string): Promise<boolean> {
         try {
             let element;
             if (shadowRoot === null) {
