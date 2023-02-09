@@ -1,6 +1,4 @@
 import BasePage from './BasePage';
-import * as constants from './constants';
-import SidebarMenu from './SidebarMenu';
 
 class RolesPage extends BasePage {
 
@@ -9,13 +7,38 @@ class RolesPage extends BasePage {
     private static newRoleBtnSelector = '.btn-group.me-2>button:nth-child(1)';
     private static saveBtnSelector = '.btn-group.me-2>button:nth-child(2)';
     private static deleteBtnSelector = '.btn-group.me-2>button:nth-child(3)';
-    private static undoBtnSelector = '.btn-group.me-2>button:nth-child(4)';
     private static nameFieldSelector = '#f_name_0';
     private static descriptionFieldSelector = '#f_description_0';
     private static roleName = 'RolesTest';
     private static description = 'DescriptionTest';
     private static rolesTest = '.table.table-hover>tbody>tr>td [title="RolesTest"]';
     private static okConfirmBtnSelector = '.modal-footer>button:nth-child(2)';
+    private static rolesTestEdited = '.table.table-hover>tbody>tr>td [title="RolesTestEdited"]';
+    private static roleNameEdit = 'RolesTestEdited';
+    private static descriptionEdit = 'DescriptionTestEdited';
+
+    async checkVisibilityOfEditedRole(): Promise<boolean> {
+        return await this.isElementVisibleMethod(RolesPage.browserRoot, RolesPage.rolesTestEdited);
+    }
+    async editTheCreatedRole(): Promise<void> {
+        await this.waitForLoading();
+        await this.clickBtn(RolesPage.browserRoot, RolesPage.rolesTest);
+        await this.waitForLoading();
+        await this.typeRoleNameEdit();
+        await this.waitForLoading();
+        await this.typeRoleDescriptionEdit();
+        await this.waitForLoading();
+        await this.clickSaveRoleBtn();
+        await this.waitForLoading();
+    }
+    async typeRoleNameEdit(): Promise<void> {
+        await this.clearField(RolesPage.editorRoot, RolesPage.nameFieldSelector);
+        await this.typeInField(RolesPage.editorRoot, RolesPage.nameFieldSelector, RolesPage.roleNameEdit);
+    }
+    async typeRoleDescriptionEdit(): Promise<void> {
+        await this.clearField(RolesPage.editorRoot, RolesPage.descriptionFieldSelector);
+        await this.typeInField(RolesPage.editorRoot, RolesPage.descriptionFieldSelector, RolesPage.descriptionEdit);
+    }
 
     async createNewRole(): Promise<void> {
         await this.waitForLoading();
@@ -31,6 +54,15 @@ class RolesPage extends BasePage {
     async deleteTheCreatedRole(): Promise<void> {
         await this.waitForLoading();
         await this.clickBtn(RolesPage.browserRoot, RolesPage.rolesTest);
+        await this.waitForLoading();
+        await this.clickDeleteRoleBtn();
+        await this.waitForLoading();
+        await this.clickOKConfirmBtn();
+        await this.waitForLoading();
+    }
+    async deleteTheEditedRole(): Promise<void> {
+        await this.waitForLoading();
+        await this.clickBtn(RolesPage.browserRoot, RolesPage.rolesTestEdited);
         await this.waitForLoading();
         await this.clickDeleteRoleBtn();
         await this.waitForLoading();
